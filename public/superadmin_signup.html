@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Super Admin Sign-Up</title>
+  <link rel="stylesheet" href="css/hod.css"/>
+  <style>
+    .password-requirements {
+      font-size: 0.9em;
+      margin-top: 5px;
+      padding-left: 15px;
+    }
+    .password-requirements li {
+      color: red;
+      list-style: circle;
+    }
+    .password-requirements li.valid {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container">
+    <h2>Super Admin Sign-Up</h2>
+    <form id="superAdminSignupForm" class="auth-form" method="POST">
+      <input type="text" placeholder="Full Name" name="name" required />
+      <input type="email" placeholder="Email" name="email" required />
+      <input type="text" placeholder="Staff Number" name="staff_number" required />
+
+      <select name="designation" required>
+        <option value="">Select Designation</option>
+        <option value="Prof.">Prof.</option>
+        <option value="Dr.">Dr.</option>
+        <option value="Engr.">Engr.</option>
+      </select>
+
+      <input type="tel" placeholder="Phone Number" name="phone_number" required />
+
+      <input type="password" placeholder="Password" name="password" id="password" onfocus="passwordRequirements()" required />
+      <ul  class="password-requirements" id="passwordRequirements" style="display: none; list-style: none;">
+        <li id="length">At least 8 characters</li>
+        <li id="uppercase">At least one uppercase letter</li>
+        <li id="lowercase">At least one lowercase letter</li>
+        <li id="number">At least one number</li>
+        <li id="symbol">At least one special symbol (!@#$%^&*)</li>
+      </ul>
+
+      <input type="password" placeholder="Confirm Password" id="confirm_password" required />
+
+      <button type="submit" class="auth-btn">Sign Up</button>
+    </form>
+    <p id="signupMessage" class="small-text"></p>
+   <span>Or </span> <a href="login.html">Login</a>
+    
+  </div>
+
+  <script>
+    const passwordInput = document.getElementById("password");
+    const confirmPasswordInput = document.getElementById("confirm_password");
+
+    const requirements = {
+      length: /.{8,}/,
+      uppercase: /[A-Z]/,
+      lowercase: /[a-z]/,
+      number: /[0-9]/,
+      symbol: /[!@#$%^&*]/,
+    };
+
+    passwordInput.addEventListener("input", () => {
+      for (const key in requirements) {
+        const element = document.getElementById(key);
+        if (requirements[key].test(passwordInput.value)) {
+          element.classList.add("valid");
+        } else {
+          element.classList.remove("valid");
+        }
+      }
+    });
+
+    document.getElementById("superAdminSignupForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const password = passwordInput.value;
+      const confirmPassword = confirmPasswordInput.value;
+
+      // Check all validations passed
+      const allValid = Object.keys(requirements).every((key) =>
+        requirements[key].test(password)
+      );
+
+      if (!allValid) {
+        document.getElementById("signupMessage").textContent = "Password does not meet all requirements!";
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        document.getElementById("signupMessage").textContent = "Passwords do not match!";
+        return;
+      }
+
+      // Collect and send data
+      const formData = new FormData(document.getElementById("superAdminSignupForm"));
+      const data = {};
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+
+      fetch("../api/auth/superadmin_signup.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      })
+        .then((res) => res.json())
+        .then((response) => {
+          document.getElementById("signupMessage").textContent = response.message;
+          if (response.success) {
+            document.getElementById("superAdminSignupForm").reset();
+          }
+        })
+        .catch((err) => {
+          document.getElementById("signupMessage").textContent = "An error occurred!";
+        });
+    });
+    function passwordRequirements(){
+      document.getElementById("passwordRequirements").style.display = "block";
+    }
+  </script>
+</body>
+</html>

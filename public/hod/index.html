@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HOD Dashboard</title>
+  <link rel="stylesheet" href="../css/hod.css" />
+  <link rel="stylesheet" href="../css/hod2.css" />
+  
+
+</head>
+<body>
+  <h2 class="title">HOD Dashboard</h2>
+
+  <div class="hod-info" id="hodInfo" style="padding: 10px; margin: 10px;">
+    <div>
+      <!-- Always visible welcome text -->
+      <span id="welcomeText"></span>
+  
+      <!-- Toggle details button -->
+      <button id="toggleDetailsBtn" style="margin-left: 10px; float: right;">
+        <span id="caretIcon">▼</span>
+      </button>
+  
+      <!-- Logout button on the right -->
+      <button id="logoutBtn" style=" float: right; background-color: navy; color: white; border-radius: 5px;">Logout</button>
+    </div>
+  
+    <!-- Details hidden by default -->
+    <div id="hodDetails" style="display: none; margin-top: 10px;">
+      <p><strong>Email:</strong> <span id="hodEmail"></span></p>
+      <p><strong>Phone Number:</strong> <span id="hodPhone"></span></p>
+      <p><strong>Department:</strong> <span id="hodDept"></span></p>
+      <p><strong>Staff Number:</strong> <span id="hodStaff"></span></p>
+      <p><strong>Role:</strong> <span id="hodRole"></span></p>
+    </div>
+  </div>
+  
+
+  <!-- Tab Navigation -->
+  <div class="tabs">
+    <button class="tab-button active" data-tab="add-course">Manage Courses</button>
+    <button class="tab-button" data-tab="assign-course">Assign Course</button>
+    <button class="tab-button" data-tab="assignedCoursesTab">Assigned Courses</button>
+    <button class="tab-button" data-tab="view-hod-students">View Students</button>
+    <button class="tab-button" data-tab="attendance-report">Attendance Report</button>
+  </div>
+
+  <!-- Add Course Tab -->
+  <div class="tab-content active" id="add-course">
+    <form action="">
+      <input type="file" name="courseUpload" placeholder="Upload File" required/>
+      <button type="submit"></button>
+    </form>
+    <form id="addCourseForm" class="form">
+      <input type="text" name="course_code" placeholder="Course Code" required />
+      <input type="text" name="course_title" placeholder="Course Title" required />
+      <input type="number" name="credit_load" placeholder="Credit Load" required />
+      <button type="submit">Add Course</button>
+    </form>
+    <div id="coursesTable"></div>
+  </div>
+
+  <!-- Assign Course Tab -->
+  <div class="tab-content" id="assign-course">
+    <form id="assignCourseForm" class="form">
+      <select name="course_id" id="courseSelect" required></select>
+      <select name="Lecturer_id" id="LecturerSelect"  required></select>
+      <button type="submit">Assign Course</button>
+    </form>
+  </div>
+
+  <!-- View Assigned Courses Tab -->
+  <div id="assignedCoursesTab" class="tab-content">
+    <h2>Assigned Courses</h2>
+    <table id="assignedCoursesTable">
+        <thead>
+            <tr>
+                <th>Course</th>
+                <th>Lecturer</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<!-- view hod students -->
+
+<div id="view-hod-students" class="tab-content">
+  <input type="hidden" id="hodDept">
+
+  <label for="filterLevel" style="float: none;">Filter by Level:</label>
+  <select id="filterLevel">
+      <option value="">All</option>
+      <option value="100">100</option>
+      <option value="200">200</option>
+      <option value="300">300</option>
+      <option value="400">400</option>
+      <option value="500">500</option>
+  </select>
+  <div id="studentsTable"></div>
+  <div id="paginationControls" style="text-align:center; margin-top: 10px;"></div>
+</div>
+
+
+  <!-- Attendance Report Tab -->
+  <div class="tab-content" id="attendance-report">
+    <select id="reportCourseSelect" class="dropdown"></select>
+    <div id="attendanceReportTable"></div>
+  </div>
+<!-- Edit Course Modal -->
+<div id="editCourseModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('editCourseModal')">&times;</span>
+      <h3>Edit Course</h3>
+      <form id="editCourseForm">
+        <input type="hidden" id="editCourseId" name="id">
+        <input type="text" id="editCourseCode" name="course_code" placeholder="Course Code" required>
+        <input type="text" id="editCourseTitle" name="course_title" placeholder="Course Title" required>
+        <button type="submit">Save Changes</button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Delete Confirmation Modal -->
+  <div id="deleteConfirmModal" class="modal">
+    <div class="modal-content">
+      <p>Are you sure you want to delete this course?</p>
+      <div style="margin-top: 20px;">
+        <button id="confirmDeleteBtn">Yes, Delete</button>
+        <button id="cancelDeleteBtn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+<!-- Edit Student Modal -->
+<div id="editStudentModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('editStudentModal')">&times;</span>
+    <h3>Edit Student</h3>
+    <form id="editStudentForm">
+      <input type="hidden" name="id" id="editStudentId">
+      <input type="text" name="fullname" id="editStudentName" placeholder="Full Name" required>
+    
+      <select id="editStudentGender" name="gender" required>
+        <option value="M">M</option>
+        <option value="F">F</option>
+      </select>
+      <input id="editStudentPhoneNo" type="text" name="phone_number" placeholder="Phone Number" required />
+      <input id="editStudentEmail" type="email" name="email" placeholder="Email" required />
+
+      <input id="editStudentProgramme" type="text" name="programme" placeholder="Programme" required />
+
+      <input type="text" name="matric_no" id="editStudentMatric" placeholder="Matric Number" required>
+      <select id="editStudentDept" name="department" required>
+        <option value="Agric and Biosystem">Agric and Biosystem</option> 
+        <option value="Biomedical Engineering">Biomedical Engineering</option>
+        <option value="Chemical Engineering">Chemical Engineering</option>
+        <option value="Civil Engineering">Civil Engineering</option>
+        <option value="Computer Engineering">Computer Engineering</option>
+        <option value="Electrical Engineering">Electrical Engineering</option>
+        <option value="Food Engineering">Food Engineering</option>
+        <option value="Mechanical Engineering">Mechanical Engineering</option>
+        <option value="Material and Metalurgical">Material and Metalurgical</option>
+        <option value="Water Recourses">Water Resources</option>
+    </select>
+  </br>
+    <select id="editStudentLevel" name="level" required>
+      <option value="100">100</option>
+      <option value="200">200</option>
+      <option value="300">300</option>
+      <option value="400">400</option>
+      <option value="500">500</option>
+  </select>
+  <br>
+      <button type="submit">Update Student</button>
+    </form>
+  </div>
+</div>
+<!-- Delete Confirmation Modal -->
+<div id="deleteConfirmModal" class="modal">
+  <div class="modal-content">
+    <p>Are you sure you want to delete this record?</p>
+    <button id="confirmDeleteBtn">Yes, Delete</button>
+    <button id="cancelDeleteBtn">Cancel</button>
+  </div>
+</div>
+
+
+
+<!-- edit assigned courses -->
+
+  <div id="editAssignedModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeEditAssignedModal()">&times;</span>
+      <h3>Edit Assigned Course</h3>
+      <form id="editAssignedForm">
+        <input type="hidden" id="editAssignedId">
+        <label for="editLecturerSelect">Select New Lecturer:</label>
+        <select id="editLecturerSelect" required></select>
+        <br><br>
+        <button type="submit">Update Assignment</button>
+      </form>
+    </div>
+  </div>
+
+  
+<!-- View Student Modal -->
+<div id="viewStudentModal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="closeViewStudent">&times;</span>
+    <h3>Student Details</h3>
+    <div id="studentDetails">
+      <!-- Filled dynamically with JS -->
+    </div>
+  </div>
+</div>
+<!-- Student Detail Modal -->
+<div id="studentDetailModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('studentDetailModal')">&times;</span>
+    <h3>Student Details</h3>
+    <p><strong>Matric No:</strong> <span id="detailMatric"></span></p>
+    <p><strong>Full Name:</strong> <span id="detailName"></span></p>
+    <p><strong>Department:</strong> <span id="detailDept"></span></p>
+    <p><strong>Programme:</strong> <span id="detailProgramme"></span></p>   
+    <p><strong>Level:</strong> <span id="detailLevel"></span></p>
+    <p><strong>Gender:</strong> <span id="detailGender"></span></p>
+    <p><strong>Email:</strong> <span id="detailEmail"></span></p>
+    <p><strong>Phone Number:</strong> <span id="detailPhoneNo"></span></p>
+    <p><strong>Date added:</strong> <span id="detailCreated"></span></p>
+    
+  </div>
+</div>
+  
+  
+  <script src="../js/hod.js"></script>  
+  <!-- <script src="../js/hod2.js"></script> -->
+</body>
+</html>

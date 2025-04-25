@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance System - Home</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, navy, black);
+            color: white;
+        }
+        .container {
+            padding: 50px 20px;
+        }
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .title {
+            font-size: 3rem;
+            font-weight: bold;
+            animation: fadeIn 2s ease-in-out;
+        }
+        .stack-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            height: 350px;
+            margin-top: 30px;
+        }
+        .role-card {
+            position: absolute;
+            width: 350px;
+            padding: 20px;
+            background: white;
+            color: navy;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: transform 0.5s, opacity 0.5s;
+        }
+        .role-card:nth-child(1) { z-index: 3; transform: translateY(-10px) scale(2.1);  background-color: aqua; }
+        .role-card:nth-child(2) { z-index: 2; transform: translateY(-10px) scale(1.0);  background-color: rgb(241, 131, 21); }
+        .role-card:nth-child(3) { z-index: 1; transform: translateY(20px) scale(0.9);  background-color: rgb(33, 175, 80); }
+        
+        .buttons {
+            margin-top: 40px;
+        }
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 10px;
+            transition: background 0.3s ease;
+        }
+        .login-btn { background: navy; color: white; }
+        .signup-btn { background: blue; color: white; }
+        .btn:hover { opacity: 0.8; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="unilorin_logo.png" alt="University of Ilorin Logo" class="logo">
+        <h1 class="title">Welcome to the Fingerprint-Based Attendance System</h1>
+        <p>Here is how the system works:</p>
+        <p>The following are the roles available and their duties:</p>
+        
+        <div class="stack-container" id="roleStack">
+            <div class="role-card" onclick="bringToFront(this)">
+                <h2>Super Admin</h2>
+                <ul>
+                    <li>Registers and manages HODs.</li>
+                    <li>Configures system settings.</li>
+                    <li>Monitors system usage and security.</li>
+                </ul>
+            </div>
+            <div class="role-card" onclick="bringToFront(this)">
+                <h2>Head of Department (HOD)</h2>
+                <ul>
+                    <li>Adds and assigns courses.</li>
+                    <li>Monitors student attendance.</li>
+                    <li>Generates attendance reports.</li>
+                </ul>
+            </div>
+            <div class="role-card" onclick="bringToFront(this)">
+                <h2>Lecturer</h2>
+                <ul>
+                    <li>Records student attendance.</li>
+                    <li>Generates attendance reports.</li>
+                    <li>Ensures attendance compliance.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="buttons">
+            <button class="btn login-btn" onclick="location.href='login.html'">Login</button>
+            <button class="btn signup-btn" onclick="location.href='superadmin_signup.html'">Super Admin Signup</button>
+        </div>
+    </div>
+
+    <script>
+        function bringToFront(card) {
+            let cards = document.querySelectorAll(".role-card");
+            document.getElementById("roleStack").prepend(card);
+            anime({
+                targets: cards,
+                translateY: function(el, i) { return i * -10; },
+                scale: function(el, i) { return 1 - i * -0.1; },
+                duration: 500,
+                easing: 'easeInOutQuad'
+            });
+        }
+    </script>
+</body>
+</html>

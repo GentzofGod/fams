@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lecturer Dashboard</title>
+  <link rel="stylesheet" href="lecturer.css" />
+</head>
+<body>
+
+    <h1>Lecturer Dashboard</h1>
+    
+    <!-- Lecturer Profile Section -->
+     
+    <h3>Welcome, <span id="lecturerName">Loading...</span></h3> 
+
+    <div class="lecturer-profile" id="lecturerProfile" >
+      <p><strong>Email:</strong> <span id="lecturerEmail">Loading...</span></p>
+      <p><strong>Staff Number:</strong> <span id="lecturerStaffNo">Loading...</span></p>
+
+      <p><strong>Assigned Course(s):</strong></p>
+      <ul id="assignedCoursesList" style="list-style: none;">
+        <li>Loading courses...</li>
+      </ul>
+    </div>
+
+    <!-- Toggle Button -->
+    <button id="logoutBtn" style="float: right;">Logout</button></span>
+    <button id="toggleProfileBtn" >Show Profile Details</button>
+
+
+
+    <!-- Tabs for different content sections -->
+    <div class="tabs">
+      <button class="tab-button active" data-tab="add-students">Enroll Students</button>
+      <button class="tab-button" data-tab="manage-students">Manage Enrolled Students</button>
+      <button class="tab-button" data-tab="start-attendance">Start Attendance</button>
+      <button class="tab-button" data-tab="view-attendance">View Attendance</button>
+      <button class="tab-button" data-tab="attendance-summary">Attendance Summary</button>
+    </div>
+
+<!-- add student to course -->
+<div class="tab-content active" id="add-students">
+  <h3>Add Students to Course</h3>
+  <!-- Add Student Form -->
+  <form id="addStudentForm">
+      <!-- Select Course Dropdown -->
+  <label>Select Course:</label>
+  <select id="courseSelectAdd" name="courseSelectAdd">
+  </select>
+    <input  type="text" id="matricNumber" placeholder="Matric Number" required />
+    <button type="submit">Add Student</button>
+  </form>
+
+  <!-- Bulk Upload Section -->
+  <form class="upload-section">
+    <h3>Bulk Upload</h3>
+    <label>Select Course:</label>
+    <select  id="courseSelectBulk"></select>
+    <input style="width: 91%;" type="file" id="bulkUploadFile" accept=".xlsx, .xls" />
+    <button id="uploadStudentsBtn" disabled>Upload Students</button>
+  </form>
+</div>
+
+<!-- view enrolled students -->
+    <div class="tab-content" id="manage-students">
+      <h2>Manage Students</h2>
+      <label>Select Course:</label>
+      <select id="courseSelectManage" style="width: 21%;">
+      </select>
+      <div id="studentTableContainer"></div>
+    </div>
+
+    <!-- start attendance -->
+    <div class="tab-content" id="start-attendance">
+      <h2>Start Attendance</h2>
+      <label>Select Course:</label>
+      <select id="courseSelectAttendance"></select>
+      <button id="startAttendanceBtn">Start Attendance</button>
+      <p id="attendanceStatus"></p>
+    </div>
+
+    <div class="tab-content" id="view-attendance">
+      <h2>View Attendance Records</h2>
+      <label>Select Course:</label>
+      <select id="courseSelectViewAttendance"></select>
+      <div id="attendanceTableContainer"></div>
+    </div>
+
+    <div class="tab-content" id="attendance-summary">
+      <h2>Attendance Summary Report</h2>
+      <label>Select Course:</label>
+      <select id="courseSelectSummary"></select>
+      <div id="summaryTableContainer"></div>
+      <button id="exportSummaryBtn">Export to Excel</button>
+    </div>
+
+
+  <script src="lecturer.js"></script>
+</body>
+</html>

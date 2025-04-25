@@ -1,0 +1,190 @@
+/* Basic Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fa;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    width: 100%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1, h2 ,h3, h4 {
+    text-align: center;
+    color: navy;
+  }
+  
+  .lecturer-profile p {
+    font-size: 1rem;
+    color: black;
+    margin: 5px 0;
+  }
+  
+  .tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    height: 60px;
+    background-color: navy;
+  }
+  
+  .tab-button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    color:#fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .lecturer-profile{
+    display: none;
+  }
+  .tab-button.active {
+    background-color: rgb(116, 116, 224);
+    color: white;
+  }
+  
+  .tab-content {
+    display: none;
+    margin-top: 20px;
+  }
+  
+  .tab-content.active {
+    display: block;
+    justify-content: center;
+  }
+  
+  /* Form Styling */
+  form {
+    max-width: 500px;
+    margin: 20px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  form input{
+    width: 90.5%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  form select{
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  select{
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  /* Tables */
+  table {
+    width: 95%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  th, td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  thead {
+    background: navy;
+    color: white;
+  }
+  
+  tbody tr:hover {
+    background: #f2f2f2;
+  }
+  
+  /* Buttons Inside Tables */
+  .edit-btn,
+  .delete-btn {
+    padding: 6px 10px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .edit-btn {
+    background-color: #28a745;
+  }
+  
+  .delete-btn {
+    background-color: #dc3545;
+  }
+  
+  .edit-btn:hover {
+    background-color: #218838;
+  }
+  
+  .delete-btn:hover {
+    background-color: #c82333;
+  }
+  
+  form button {
+    justify-self: unset;
+    background: navy;
+    color: white;
+    font-weight: bold;
+    border: none;
+  }
+  
+  form button:hover {
+    background: #e4eaf0;
+    color: navy;
+  }
+  
+  
+  .upload-section input,
+  .form-section input {
+    padding: 8px;
+    width: 100%;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: navy;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #fff;
+    color: navy;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .tabs {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Start Attendance</title>
+</head>
+<body>
+  <h2>Trigger Attendance</h2>
+  <input type="text" id="course_code" name="course_code" placeholder="Enter Course Code" />
+  <button onclick="triggerAttendance()">Start</button>
+
+  <script>
+    function triggerAttendance() {
+      const courseCode = document.getElementById("course_code").value;
+      fetch("https://192.168.43.48/fams2/api/signal_update.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          course_code: courseCode,
+          status: "start"
+        })
+      })
+      .then(res => res.json())
+      .then(data => alert(data.message))
+      .catch(err => console.error(err));
+    }
+  </script>
+</body>
+</html>

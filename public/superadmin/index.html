@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Super Admin Panel</title>
+  <link rel="stylesheet" href="../css/superadmin.css" />
+</head>
+<body>
+  <h2 class="title">Super Admin Dashboard</h2>
+
+<div class="admin-info" id="superAdminInfo" style="padding: 2px; margin: 3px;">
+  <!-- Welcome text always shown -->
+<button id="toggleDetailsBtn" >▼ </button><span id="welcomeText"></span> <span>  <button id="logoutBtn" style="float: right;">Logout</button></span>
+
+  <!-- Hidden by default -->
+  <div id="adminDetails" style="display: none; padding: 2px; ">
+    <p><strong>Email:</strong> <span id="adminEmail"></span></p>
+    <p><strong>Phone Number:</strong> <span id="adminPhone"></span></p>
+    <p><strong>Staff Number:</strong> <span id="adminStaff"></span></p>
+    <p><strong>Role:</strong> <span id="adminRole"></span></p>
+  </div>
+
+
+
+</div>
+
+
+  <!-- Tab Buttons -->
+  <div class="tabs">
+    <button class="tab-button active" data-tab="add-admin">Add Admin</button>
+    <button class="tab-button" data-tab="add-student">Add Student</button>
+    <button class="tab-button" data-tab="view-admins">View All Admins</button>
+    <button class="tab-button" data-tab="view-students">View All Students</button>
+  </div>
+
+  <!-- Add Admin Tab -->
+  <div class="tab-content active" id="add-admin">
+   
+    <form id="bulkUploadForm" class="form" enctype="multipart/form-data">
+      <a href="../files/admin_sample.xlsx" download="Admin_Sample.xlsx"><h3>Download Sample FIle</h3></a>
+      <label for="fileInput">Upload CSV/Excel:</label>
+      <input type="file" id="fileInput" name="file" accept=".csv, .xlsx">
+      <button type="submit">Upload</button>
+  </form>
+  
+  <div style="text-align: center;" id="uploadMessage"></div>
+<br>
+<div style="text-align: center;"><h4>OR</h4></div>
+
+<form id="addAdminForm" enctype="multipart/form-data" class="form">
+  <input type="text" placeholder="Full Name" name="name" required />
+  <input type="email" placeholder="Email" name="email" required />
+  <input type="text" placeholder="Staff Number" name="staff_number" required />
+  
+  <select name="designation" required>
+    <option value="">Select Designation</option>
+    <option value="Prof.">Prof.</option>
+    <option value="Dr.">Dr.</option>
+    <option value="Engr.">Engr.</option>
+  </select>
+  
+  <input type="tel" placeholder="Phone Number" name="phone_number" required />
+  
+  <select name="role" required>
+    <option value="">Select Role</option>
+    <option value="HOD">HOD</option>
+    <option value="Lecturer">Lecturer</option>
+  </select>
+  
+  <select id="department" name="department" required>
+    <option value="">Select Department</option>
+    <option value="Agric and Biosystem">Agric and Biosystem</option>
+    <option value="Biomedical Engineering">Biomedical Engineering</option>
+    <option value="Chemical Engineering">Chemical Engineering</option>
+    <option value="Civil Engineering">Civil Engineering</option>
+    <option value="Computer Engineering">Computer Engineering</option>
+    <option value="Electrical Engineering">Electrical Engineering</option>
+    <option value="Food Engineering">Food Engineering</option>
+    <option value="Mechanical Engineering">Mechanical Engineering</option>
+    <option value="Material and Metalurgical">Material and Metalurgical</option>
+    <option value="Water Recourses">Water Resources</option>
+  </select>
+
+  <input type="password" placeholder="Password" name="password" />
+  <button type="submit">Add Admin</button>
+</form>  </div>
+
+  <!-- Add Student Tab -->
+
+  <div class="tab-content" id="add-student">
+
+    <!-- Bulk Upload Section -->
+  <form id="bulkStudentUploadForm" enctype="multipart/form-data" class="form">
+    <h2>Upload Student List </h2>
+    <a href="../files/students_sample.xlsx" download="Students_Sample.xlsx"><h3>Download Sample FIle</h3></a>
+      <label for="studenttFile">Upload Student Details (.csv or .xlsx):</label>
+      <input type="file" id="studentFile" name="studentFile" accept=".csv, .xlsx">
+      <button type="submit">Upload</button>
+  </form>
+  <div style="text-align: center;" id="uploadStatus"></div>
+
+  <div style="text-align: center;"><h4>OR</h4></div>
+
+
+  <form id="addStudentForm" enctype="multipart/form-data" class="form">
+    <input type="text" name="student_id" placeholder="Fingerprint ID" required />
+    <input type="text" name="matric_no" placeholder="Matric Number" required />
+    <input type="text" name="surname" placeholder="Surname" required />
+    <input type="text" name="firstname" placeholder="First Name" required />
+  
+    <select name="gender" required>
+      <option value="">Select Gender</option>
+      <option value="M">M</option>
+      <option value="F">F</option>
+    </select>
+  
+    <input type="text" name="programme" placeholder="Programme" required />
+  
+    <select name="department" required>
+      <option value="">Select Department</option>
+      <option value="Agric and Biosystem">Agric and Biosystem</option> 
+      <option value="Biomedical Engineering">Biomedical Engineering</option>
+      <option value="Chemical Engineering">Chemical Engineering</option>
+      <option value="Civil Engineering">Civil Engineering</option>
+      <option value="Computer Engineering">Computer Engineering</option>
+      <option value="Electrical Engineering">Electrical Engineering</option>
+      <option value="Food Engineering">Food Engineering</option>
+      <option value="Mechanical Engineering">Mechanical Engineering</option>
+      <option value="Material and Metalurgical">Material and Metalurgical</option>
+      <option value="Water Recourses">Water Resources</option>
+    </select>
+  
+    <select name="level" required>
+      <option value="">Select Level</option>
+      <option value="100">100</option>
+      <option value="200">200</option>
+      <option value="300">300</option>
+      <option value="400">400</option>
+      <option value="500">500</option>
+    </select>
+  
+    <input type="text" name="phone_number" placeholder="Phone Number" required />
+    <input type="email" name="email" placeholder="Email" required />
+  
+    <button type="submit">Add Student</button>
+  </form>
+  
+  </div>
+
+  <div id="view-admins" class="tab-content">
+    <label for="filterRole">Filter by Role:</label>
+    <select id="filterRole">
+        <option value="">All</option>
+        <option value="HOD">HOD</option>
+        <option value="Lecturer">Lecturer</option>
+    </select>
+    
+    <label for="filterDepartment">Filter by Department:</label>
+    <select id="filterDepartment">
+        <option value="">All</option>
+        <option value="Agric and Biosystem">Agric and Biosystem</option> 
+        <option value="Biomedical Engineering">Biomedical Engineering</option>
+        <option value="Chemical Engineering">Chemical Engineering</option>
+        <option value="Civil Engineering">Civil Engineering</option>
+        <option value="Computer Engineering">Computer Engineering</option>
+        <option value="Electrical Engineering">Electrical Engineering</option>
+        <option value="Food Engineering">Food Engineering</option>
+        <option value="Mechanical Engineering">Mechanical Engineering</option>
+        <option value="Material and Metalurgical">Material and Metalurgical</option>
+        <option value="Water Recourses">Water Resources</option>
+    </select>
+    
+    <div id="adminsTable"></div>
+    
+    <div id="adminsTable"></div>
+  </div>
+  
+  <div id="view-students" class="tab-content">
+    <label for="filterDept">Filter by Department:</label>
+    <select id="filterDept" >
+        <option value="">All</option>
+        <option value="Agric and Biosystem">Agric and Biosystem</option> 
+        <option value="Biomedical Engineering">Biomedical Engineering</option>
+        <option value="Chemical Engineering">Chemical Engineering</option>
+        <option value="Civil Engineering">Civil Engineering</option>
+        <option value="Computer Engineering">Computer Engineering</option>
+        <option value="Electrical Engineering">Electrical Engineering</option>
+        <option value="Food Engineering">Food Engineering</option>
+        <option value="Mechanical Engineering">Mechanical Engineering</option>
+        <option value="Material and Metalurgical">Material and Metalurgical</option>
+        <option value="Water Recourses">Water Resources</option>
+    </select>
+    
+    <label for="filterLevel">Filter by Level:</label>
+    <select id="filterLevel">
+        <option value="">All</option>
+        <option value="100">100</option>
+        <option value="200">200</option>
+        <option value="300">300</option>
+        <option value="400">400</option>
+        <option value="500">500</option>
+    </select>
+    
+    <div id="studentsTable"></div>
+    <div id="paginationControls" style="text-align:center; margin-top: 10px;"></div>
+  </div>
+  
+  <!-- Edit Admin Modal -->
+<div id="editAdminModal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="closeEditAdmin">&times;</span>
+    <h3>Edit Admin</h3>
+    <form id="editAdminForm">
+      <input type="hidden" name="admin_id" />
+      <input type="text" name="name" placeholder="Full Name" required />
+      <input type="email" name="email" placeholder="Email" required />
+
+      <input type="text" placeholder="Staff Number" name="staff_number" required />
+  
+      <select name="designation" required>
+        <option value="Prof.">Prof.</option>
+        <option value="Dr.">Dr.</option>
+        <option value="Engr.">Engr.</option>
+      </select>
+      
+      <input type="tel" placeholder="Phone Number" name="phone_number" required />
+
+      <select id="role" name="role" required>
+        <option value="HOD">HOD</option>
+        <option value="Lecturer">Lecturer</option>
+      </select><br>
+      <select id="department" name="department" required>
+        <option value="Agric and Biosystem">Agric and Biosystem</option> 
+        <option value="Biomedical Engineering">Biomedical Engineering</option>
+        <option value="Chemical Engineering">Chemical Engineering</option>
+        <option value="Civil Engineering">Civil Engineering</option>
+        <option value="Computer Engineering">Computer Engineering</option>
+        <option value="Electrical Engineering">Electrical Engineering</option>
+        <option value="Food Engineering">Food Engineering</option>
+        <option value="Mechanical Engineering">Mechanical Engineering</option>
+        <option value="Material and Metalurgical">Material and Metalurgical</option>
+        <option value="Water Recourses">Water Resources</option>
+    </select>
+
+      <button type="submit">Save Changes</button>
+    </form>
+  </div>
+</div>
+
+
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteConfirmModal" class="modal">
+  <div class="modal-content">
+    <p>Are you sure you want to delete this record?</p>
+    <button id="confirmDeleteBtn">Yes, Delete</button>
+    <button id="cancelDeleteBtn">Cancel</button>
+  </div>
+</div>
+
+
+<!-- Student Detail Modal -->
+<div id="studentDetailModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('studentDetailModal')">&times;</span>
+    <h3>Student Details</h3>
+    <p><strong>Matric No:</strong> <span id="detailMatric"></span></p>
+    <p><strong>Full Name:</strong> <span id="detailName"></span></p>
+    <p><strong>Department:</strong> <span id="detailDept"></span></p>
+    <p><strong>Programme:</strong> <span id="detailProgramme"></span></p>   
+    <p><strong>Level:</strong> <span id="detailLevel"></span></p>
+    <p><strong>Gender:</strong> <span id="detailGender"></span></p>
+    <p><strong>Email:</strong> <span id="detailEmail"></span></p>
+    <p><strong>Phone Number:</strong> <span id="detailPhoneNo"></span></p>
+    <p><strong>Date added:</strong> <span id="detailCreated"></span></p>
+    
+  </div>
+</div>
+
+<!-- Edit Student Modal -->
+<div id="editStudentModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('editStudentModal')">&times;</span>
+    <h3>Edit Student</h3>
+    <form id="editStudentForm">
+      <input type="hidden" name="id" id="editStudentId">
+      <input type="text" name="fullname" id="editStudentName" placeholder="Full Name" required>
+    
+      <select id="editStudentGender" name="gender" required>
+        <option value="M">M</option>
+        <option value="F">F</option>
+      </select>
+      <input id="editStudentPhoneNo" type="text" name="phone_number" placeholder="Phone Number" required />
+      <input id="editStudentEmail" type="email" name="email" placeholder="Email" required />
+
+      <input id="editStudentProgramme" type="text" name="programme" placeholder="Programme" required />
+
+      <input type="text" name="matric_no" id="editStudentMatric" placeholder="Matric Number" required>
+      <select id="editStudentDept" name="department" required>
+        <option value="Agric and Biosystem">Agric and Biosystem</option> 
+        <option value="Biomedical Engineering">Biomedical Engineering</option>
+        <option value="Chemical Engineering">Chemical Engineering</option>
+        <option value="Civil Engineering">Civil Engineering</option>
+        <option value="Computer Engineering">Computer Engineering</option>
+        <option value="Electrical Engineering">Electrical Engineering</option>
+        <option value="Food Engineering">Food Engineering</option>
+        <option value="Mechanical Engineering">Mechanical Engineering</option>
+        <option value="Material and Metalurgical">Material and Metalurgical</option>
+        <option value="Water Recourses">Water Resources</option>
+    </select>
+  </br>
+    <select id="editStudentLevel" name="level" required>
+      <option value="100">100</option>
+      <option value="200">200</option>
+      <option value="300">300</option>
+      <option value="400">400</option>
+      <option value="500">500</option>
+  </select>
+  <br>
+      <button type="submit">Update Student</button>
+    </form>
+  </div>
+</div>
+
+<script src="../js/admin.js"></script>
+<script src="../js/bulk_upload.js"></script>
+<script>
+
+  </script>
+</body>
+</html>
