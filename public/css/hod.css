@@ -84,23 +84,33 @@ body {
   
   /* Form Styling */
   form {
-    max-width: 500px;
-    margin: 20px auto;
+    max-width: 450px;
+    margin: 20px 40px;
     background: white;
     padding: 25px;
+    display: inline-block;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
   }
   
   form input,
-  form select,
   form button {
-    width: 90%;
+    width:95%;
     padding: 10px;
     margin-bottom: 12px;
+    justify-items: center;
     border: 1px solid #ccc;
     border-radius: 4px;
   }
+  form select {
+    width:100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    justify-items: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
 
   form button {
     background: navy;
@@ -116,7 +126,7 @@ body {
   /* Tables */
   table {
     width: 95%;
-    margin: 20px auto;
+    margin: 10px;
     border-collapse: collapse;
     background: white;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -126,10 +136,6 @@ body {
     padding: 12px 15px;
     border: 1px solid #ddd;
     text-align: left;
-  }
-  button{
-    background-color: white;
-    clear: white;
   }
   thead {
     background: navy;
@@ -141,35 +147,30 @@ body {
   }
   
   /* Buttons Inside Tables */
-  .edit-btn,
-  .delete-btn {
-    padding: 6px 10px;
-    margin-right: 5px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    font-weight: bold;
-    color: white;
-  }
-  
-  .edit-btn {
-    background-color: #28a745;
-  }
-  
-  .delete-btn {
-    background-color: #dc3545;
-  }
-  
-  .edit-btn:hover {
-    background-color: #218838;
-  }
-  
-  .delete-btn:hover {
-    background-color: #c82333;
-  }
-  
-
-
+  .edit-course-btn,
+  .delete-course-btn,
+  .editAssignedBtn,
+  .deleteAssignedBtn,
+  .edit-student-btn,
+  .delete-student-btn {
+    border-radius: 5px;
+    display: inline;
+    height: 20px;
+    background-color: navy;
+  color: white;  
+}
+.edit-course-btn:hover,
+.delete-course-btn:hover,
+.editAssignedBtn:hover,
+.deleteAssignedBtn:hover,
+.edit-student-btn:hover,
+.delete-student-btn:hover {
+  border-radius: 5px;
+  display: inline;
+  background-color: white;
+color: navy;  
+}
+ 
   .modal {
     display: none;
     position: fixed;

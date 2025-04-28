@@ -37,6 +37,45 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   
 
+
+
+
+
+    // ENABLE BULK UPLOAD BUTTON
+document.getElementById('bulkUploadCourseFile').addEventListener('change', function () {
+  document.getElementById('uploadCourseBtn').disabled = !this.files.length;
+});
+
+// BULK UPLOAD
+document.getElementById('uploadCourseBtn').addEventListener('click', function (e) {
+  e.preventDefault();
+
+  const fileInput = document.getElementById('bulkUploadCourseFile');
+
+  if (!fileInput.files.length) return alert('Please select file.');
+
+  const formData = new FormData();
+  formData.append('file', fileInput.files[0]);
+
+  fetch('../../api/hod/bulk_upload_courses.php', {
+    method: 'POST',
+    body: formData
+  })
+    .then(res => res.json())
+    .then(data => {
+      alert(data.message);
+      fileInput.value = '';
+      document.getElementById('uploadCourseBtn').disabled = true;
+    })
+    .catch(err => console.error('Upload failed:', err));
+});
+
+
+
+
+
+
+
     // Add Course
     document.getElementById("addCourseForm").addEventListener("submit", async (e) => {
       e.preventDefault();

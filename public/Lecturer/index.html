@@ -66,8 +66,7 @@
     <div class="tab-content" id="manage-students">
       <h2>Manage Students</h2>
       <label>Select Course:</label>
-      <select id="courseSelectManage" style="width: 21%;">
-      </select>
+      <select id="courseSelectManage" style="width: 20%;"></select>
       <div id="studentTableContainer"></div>
     </div>
 
@@ -75,24 +74,25 @@
     <div class="tab-content" id="start-attendance">
       <h2>Start Attendance</h2>
       <label>Select Course:</label>
-      <select id="courseSelectAttendance"></select>
-      <button id="startAttendanceBtn">Start Attendance</button>
+      <select id="courseSelectAttendance" class="courseSelectAttendance" style="width: 20%;"></select>
+      <button id="startAttendanceBtn" class="center">Start Attendance</button>
       <p id="attendanceStatus"></p>
     </div>
 
-    <div class="tab-content" id="view-attendance">
+    <!-- view attendance -->
+    <div class="tab-content center" id="view-attendance">
       <h2>View Attendance Records</h2>
       <label>Select Course:</label>
-      <select id="courseSelectViewAttendance"></select>
+      <select id="courseSelectViewAttendance" style="width: 100%;"></select>
       <div id="attendanceTableContainer"></div>
     </div>
 
-    <div class="tab-content" id="attendance-summary">
+    <div class="tab-content center" id="attendance-summary">
       <h2>Attendance Summary Report</h2>
       <label>Select Course:</label>
-      <select id="courseSelectSummary"></select>
+      <select id="courseSelectSummary" style="width: 100%;"></select>
+      <button id="exportSummaryBtn" class="center">Export to Excel</button>
       <div id="summaryTableContainer"></div>
-      <button id="exportSummaryBtn">Export to Excel</button>
     </div>
 
 

@@ -30,24 +30,12 @@
   <div class="tabs">
     <button class="tab-button active" data-tab="add-admin">Add Admin</button>
     <button class="tab-button" data-tab="add-student">Add Student</button>
-    <button class="tab-button" data-tab="view-admins">View All Admins</button>
-    <button class="tab-button" data-tab="view-students">View All Students</button>
+    <button class="tab-button" data-tab="view-admins">Manage Admins</button>
+    <button class="tab-button" data-tab="view-students">Manage Students</button>
   </div>
 
   <!-- Add Admin Tab -->
   <div class="tab-content active" id="add-admin">
-   
-    <form id="bulkUploadForm" class="form" enctype="multipart/form-data">
-      <a href="../files/admin_sample.xlsx" download="Admin_Sample.xlsx"><h3>Download Sample FIle</h3></a>
-      <label for="fileInput">Upload CSV/Excel:</label>
-      <input type="file" id="fileInput" name="file" accept=".csv, .xlsx">
-      <button type="submit">Upload</button>
-  </form>
-  
-  <div style="text-align: center;" id="uploadMessage"></div>
-<br>
-<div style="text-align: center;"><h4>OR</h4></div>
-
 <form id="addAdminForm" enctype="multipart/form-data" class="form">
   <input type="text" placeholder="Full Name" name="name" required />
   <input type="email" placeholder="Email" name="email" required />
@@ -84,25 +72,23 @@
 
   <input type="password" placeholder="Password" name="password" />
   <button type="submit">Add Admin</button>
-</form>  </div>
+</form> 
+   
+<form id="bulkUploadForm" class="form" enctype="multipart/form-data">
+  <a href="../files/admin_sample.xlsx" download="Admin_Sample.xlsx"><h3>Download Sample FIle</h3></a>
+  <label for="fileInput">Upload CSV/Excel:</label>
+  <input type="file" id="fileInput" name="file" accept=".csv, .xlsx">
+  <button type="submit">Upload</button>
+</form>
+
+<span id="uploadMessage"></span>
+</div>
 
   <!-- Add Student Tab -->
 
   <div class="tab-content" id="add-student">
 
     <!-- Bulk Upload Section -->
-  <form id="bulkStudentUploadForm" enctype="multipart/form-data" class="form">
-    <h2>Upload Student List </h2>
-    <a href="../files/students_sample.xlsx" download="Students_Sample.xlsx"><h3>Download Sample FIle</h3></a>
-      <label for="studenttFile">Upload Student Details (.csv or .xlsx):</label>
-      <input type="file" id="studentFile" name="studentFile" accept=".csv, .xlsx">
-      <button type="submit">Upload</button>
-  </form>
-  <div style="text-align: center;" id="uploadStatus"></div>
-
-  <div style="text-align: center;"><h4>OR</h4></div>
-
-
   <form id="addStudentForm" enctype="multipart/form-data" class="form">
     <input type="text" name="student_id" placeholder="Fingerprint ID" required />
     <input type="text" name="matric_no" placeholder="Matric Number" required />
@@ -145,9 +131,17 @@
   
     <button type="submit">Add Student</button>
   </form>
-  
+  <form id="bulkStudentUploadForm" enctype="multipart/form-data" class="form">
+    <h2>Upload Student List </h2>
+    <a href="../files/students_sample.xlsx" download="Students_Sample.xlsx"><h3>Download Sample FIle</h3></a>
+      <label for="studenttFile">Upload Student Details (.csv or .xlsx):</label>
+      <input type="file" id="studentFile" name="studentFile" accept=".csv, .xlsx">
+      <button type="submit">Upload</button>
+  </form>
+  <span style="text-align: center;" id="uploadStatus"></span>
   </div>
 
+  <!-- view added admins  -->
   <div id="view-admins" class="tab-content">
     <label for="filterRole">Filter by Role:</label>
     <select id="filterRole">
@@ -229,7 +223,7 @@
       <select id="role" name="role" required>
         <option value="HOD">HOD</option>
         <option value="Lecturer">Lecturer</option>
-      </select><br>
+      </select>
       <select id="department" name="department" required>
         <option value="Agric and Biosystem">Agric and Biosystem</option> 
         <option value="Biomedical Engineering">Biomedical Engineering</option>
@@ -309,7 +303,6 @@
         <option value="Material and Metalurgical">Material and Metalurgical</option>
         <option value="Water Recourses">Water Resources</option>
     </select>
-  </br>
     <select id="editStudentLevel" name="level" required>
       <option value="100">100</option>
       <option value="200">200</option>

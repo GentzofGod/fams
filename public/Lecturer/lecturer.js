@@ -23,10 +23,10 @@ document.addEventListener("DOMContentLoaded",function () {
           loadLecturerProfile();
             break;
         case 'manage-students':
-          fetchEnrolledCourses() 
+          fetchEnrolledCourses();
             break;
         case 'start-attendance': 
-            break;  // <-- ADD THIS BREAK
+            break; 
         case 'view-attendance':
             break;
         case 'attendance-summary':
@@ -44,9 +44,15 @@ function fetchCourses() {
       if (data.success) {
         const courseSelectAdd = document.getElementById('courseSelectAdd');
         const courseSelectBulk = document.getElementById('courseSelectBulk');
-        
+        const courseSelectAttendance =document.getElementById('courseSelectAttendance');
+        const courseSelectViewAttendance = document.getElementById('courseSelectViewAttendance');
+        const courseSelectSummary =  document.getElementById('courseSelectSummary');
+
         courseSelectAdd.innerHTML = '';
         courseSelectBulk.innerHTML = '';
+        courseSelectAttendance.innerHTML = '';
+        courseSelectViewAttendance.innerHTML='';
+        courseSelectSummary.innerHTML='';
 
         data.courses.forEach(course => {
           console.log(course);  // Log each course to see if the ID is correct
@@ -63,6 +69,23 @@ function fetchCourses() {
           option2.value = courseId;  // Ensure the value is set correctly
           option2.textContent = `${course.course_code} - ${course.course_title}`;
           courseSelectBulk.appendChild(option2);
+
+          const option3 = document.createElement('option');
+          option3.value = courseId;  // Ensure the value is set correctly
+          option3.textContent = `${course.course_code} - ${course.course_title}`;
+          courseSelectAttendance.appendChild(option3);
+
+          const option4 = document.createElement('option');
+          option4.value = courseId;  // Ensure the value is set correctly
+          option4.textContent = `${course.course_code} - ${course.course_title}`;
+          courseSelectViewAttendance.appendChild(option4);
+
+          const option5 = document.createElement('option');
+          option5.value = courseId;  // Ensure the value is set correctly
+          option5.textContent = `${course.course_code} - ${course.course_title}`;
+          courseSelectSummary.appendChild(option5);
+          
+
         });
 
       } else {
@@ -143,7 +166,7 @@ document.getElementById('uploadStudentsBtn').addEventListener('click', function 
             courseList.innerHTML = '';
     
             if (data.courses.length === 0) {
-              courseList.innerHTML = '<li>No courses assigned yet.</li>';
+              courseList.innerHTML = '<li>No courses assigned yet, please contact the HOD. </li>';
             } else {
               data.courses.forEach(course => {
                 const li = document.createElement('li');
@@ -227,8 +250,6 @@ function fetchEnrolledCourses() {
     });
 }
 
-
-
 // Fetch students enrolled in the selected course
 function fetchEnrolledStudents(courseId) {
   fetch(`../../api/lecturer/get_enrolled_students.php?course_id=${courseId}`)
@@ -274,20 +295,27 @@ function displayStudentTable(students) {
                       <td>${student.fullname}</td>
                       <td>${student.department}</td>
                       <td>${student.level}</td>
-                      <td><button onclick="removeStudent('${student.matric_no}')">Remove</button></td>
+                      <td><button class="remove-student-btn" data-matric_no="${student.matric_no}">Remove</button></td>
                   </tr>`;
   });
 
   tableHTML += `</tbody></table>`;
-
   studentTableContainer.innerHTML = tableHTML;
+
+  // Now attach event listeners to all remove buttons
+  document.querySelectorAll('.remove-student-btn').forEach(button => {
+      button.addEventListener('click', function() {
+          const matricNo = this.getAttribute('data-matric_no');
+          removeStudent(matricNo);
+      });
+  });
 }
 
-// Function to remove a student (optional feature)
+
+// Function to remove a student
 function removeStudent(matricNo) {
   if (confirm(`Are you sure you want to remove student ${matricNo}?`)) {
-      // Call the API to remove the student from the course
-      fetch(`../../api/lecturer/remove_student_from_course.php`, {
+      fetch('../../api/lecturer/remove_student_from_course.php', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
@@ -298,17 +326,17 @@ function removeStudent(matricNo) {
       })
       .then(res => res.json())
       .then(data => {
+          alert(data.message);
           if (data.success) {
-              alert('Student removed successfully');
+              // After successful removal, refetch students and update table
               const courseId = document.getElementById('courseSelectManage').value;
-              displayStudentTable(students); // Refresh the student list
-          } else {
-              alert('Failed to remove student');
+              fetchEnrolledStudents(courseId);  // Fetch again and re-render
           }
       })
       .catch(err => console.error('Error:', err));
   }
 }
+
 
   });
   

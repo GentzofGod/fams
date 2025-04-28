@@ -27,7 +27,7 @@ $validDepartments = [
     "Water Recourses", "Civil Engineering", "Chemical Engineering", "Biomedical Engineering"
 ];
 $validLevels = ["100", "200", "300", "400", "500"];
-$validGenders = ["Male", "Female"];
+$validGenders = ["M", "F"];
 
 if (!in_array($_POST['department'], $validDepartments)) {
     echo json_encode(["success" => false, "message" => "Invalid department selected"]);
