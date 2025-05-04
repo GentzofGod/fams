@@ -33,7 +33,11 @@ body {
     height: 60px;
     background-color: navy;
   }
-  
+  .center-div{
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+  }
   .tab-button {
     padding: 10px 20px;
     margin: 0 10px;
@@ -58,14 +62,18 @@ body {
   .tab-content.active {
     display: block;
   }
-  
+  .tab-content form{
+  align-content: center;
+  }
   /* Form Styling */
   form {
     max-width: 500px;
-    margin: 20px auto;
     background: white;
     padding: 25px;
     border-radius: 8px;
+    margin: 10px;
+    display: inline-block;
+    align-self: center;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
   }
   
@@ -163,8 +171,6 @@ body {
     color: navy;
   }
   
-  
-  .upload-section input,
   .form-section input {
     padding: 8px;
     width: 100%;
@@ -172,7 +178,14 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
   }
-  
+  .upload-section input {
+    padding: 8px;
+    width: 91%;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
   button {
     padding: 10px 20px;
     background-color: navy;

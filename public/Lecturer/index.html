@@ -32,6 +32,7 @@
 
     <!-- Tabs for different content sections -->
     <div class="tabs">
+      <img src="../logo/logo.png" alt="unilorin_logo">
       <button class="tab-button active" data-tab="add-students">Enroll Students</button>
       <button class="tab-button" data-tab="manage-students">Manage Enrolled Students</button>
       <button class="tab-button" data-tab="start-attendance">Start Attendance</button>
@@ -41,9 +42,10 @@
 
 <!-- add student to course -->
 <div class="tab-content active" id="add-students">
-  <h3>Add Students to Course</h3>
+  <h3>Enroll Students for a Course</h3>
   <!-- Add Student Form -->
-  <form id="addStudentForm">
+  <div class="center-div">
+    <form id="addStudentForm">
       <!-- Select Course Dropdown -->
   <label>Select Course:</label>
   <select id="courseSelectAdd" name="courseSelectAdd">
@@ -57,45 +59,190 @@
     <h3>Bulk Upload</h3>
     <label>Select Course:</label>
     <select  id="courseSelectBulk"></select>
-    <input style="width: 91%;" type="file" id="bulkUploadFile" accept=".xlsx, .xls" />
+    <input type="file" id="bulkUploadFile" accept=".xlsx, .xls" />
     <button id="uploadStudentsBtn" disabled>Upload Students</button>
   </form>
+  </div>
 </div>
 
 <!-- view enrolled students -->
     <div class="tab-content" id="manage-students">
       <h2>Manage Students</h2>
-      <label>Select Course:</label>
-      <select id="courseSelectManage" style="width: 20%;"></select>
+      <div class="center-div">
+      <form action="">
+        <select id="courseSelectManage"></select>
+      </form>
+      </div>
       <div id="studentTableContainer"></div>
     </div>
 
-    <!-- start attendance -->
-    <div class="tab-content" id="start-attendance">
-      <h2>Start Attendance</h2>
-      <label>Select Course:</label>
-      <select id="courseSelectAttendance" class="courseSelectAttendance" style="width: 20%;"></select>
-      <button id="startAttendanceBtn" class="center">Start Attendance</button>
-      <p id="attendanceStatus"></p>
-    </div>
+    <!-- START ATTENDANCE -->
+<div class="tab-content start-attendance" id="start-attendance">
+  <div class="center-div">
+    <form id="esp32-setup" > 
+      <label for="esp32IPInput">Enter ESP32 IP:</label>
+      <input type="text" id="esp32IPInput" placeholder="e.g. 192.168.4.1">
+      <button id="saveEsp32IPBtn">Save IP</button>
+      <p id="savedIpNotice"></p>
+    </form>
+   <form>  
+    <h2>Start Attendance</h2> <label>Select Course:</label>
+    <select id="courseSelectAttendance" class="courseSelectAttendance">
+      <!-- Options dynamically populated -->
+    </select>
+    <button id="startAttendanceBtn">Start Attendance</button>
+    <p id="attendanceStatus"></p>
+  </form>
+  </div>
+  
+</div>
 
     <!-- view attendance -->
-    <div class="tab-content center" id="view-attendance">
-      <h2>View Attendance Records</h2>
-      <label>Select Course:</label>
-      <select id="courseSelectViewAttendance" style="width: 100%;"></select>
+    <div class="tab-content" id="view-attendance">
+<div class="center-div">
+  <form action="">
+    <h2>View Attendance Records</h2>
+    <label>Select Course:</label>
+    <select id="courseSelectViewAttendance"></select>
+    <input type="date" id="dateInput">
+   </form>
+</div>
       <div id="attendanceTableContainer"></div>
     </div>
 
-    <div class="tab-content center" id="attendance-summary">
-      <h2>Attendance Summary Report</h2>
+    <div class="tab-content" id="attendance-summary">
+      <div class="center-div">
+        <form action="">
+          <h2>Attendance Summary Report</h2>
       <label>Select Course:</label>
       <select id="courseSelectSummary" style="width: 100%;"></select>
       <button id="exportSummaryBtn" class="center">Export to Excel</button>
+        </form>
+      </div>
       <div id="summaryTableContainer"></div>
     </div>
 
 
   <script src="lecturer.js"></script>
+
+  <script>
+   document.addEventListener("DOMContentLoaded", () => {
+  initializeSavedIP();
+  setupSaveIPButton();
+  setupAttendanceButton();
+});
+
+function initializeSavedIP() {
+  const savedIP = localStorage.getItem("esp32_ip");
+  if (savedIP) {
+    document.getElementById("esp32IPInput").value = savedIP;
+    document.getElementById("savedIpNotice").textContent = `Saved IP: ${savedIP}`;
+  }
+}
+
+function setupSaveIPButton() {
+  const saveBtn = document.getElementById("saveEsp32IPBtn");
+  saveBtn.addEventListener("click", () => {
+    const ip = document.getElementById("esp32IPInput").value.trim();
+    if (!ip || !/^(\d{1,3}\.){3}\d{1,3}$/.test(ip)) {
+      alert("Please enter a valid IP address like 192.168.4.1");
+      return;
+    }
+
+    localStorage.setItem("esp32_ip", ip);
+    document.getElementById("savedIpNotice").textContent = `Saved IP: ${ip}`;
+    alert("ESP32 IP saved successfully!");
+  });
+}
+
+function setupAttendanceButton() {
+  let attendanceActive = false;
+  const btn = document.getElementById("startAttendanceBtn");
+  const courseSelect = document.getElementById("courseSelectAttendance");
+  const statusText = document.getElementById("attendanceStatus");
+
+  btn.addEventListener("click", () => {
+    const esp32IP = localStorage.getItem("esp32_ip");
+    if (!esp32IP) {
+      alert("ESP32 IP not saved. Please enter and save it first.");
+      return;
+    }
+
+    const selectedCourseId = courseSelect.value;
+    if (!selectedCourseId) {
+      alert("Please select a course.");
+      return;
+    }
+
+    const action = attendanceActive ? "stop" : "start";
+
+    fetch(`http://${esp32IP}/attendance?action=${action}&course_code=${selectedCourseId}`)
+      .then(res => res.text())
+      .then(response => {
+        attendanceActive = !attendanceActive;
+        btn.textContent = attendanceActive ? "Stop Attendance" : "Start Attendance";
+         // Toggle dropdown state
+         courseSelect.disabled = attendanceActive;
+        statusText.textContent = response;
+      })
+      .catch(err => {
+        console.error("Error:", err);
+        statusText.textContent = "Failed to communicate with ESP32.";
+      });
+  });
+}
+
+document.querySelector("#courseSelectViewAttendance").addEventListener("change", fetchAttendance);
+document.querySelector("#dateInput").addEventListener("change", fetchAttendance);
+
+function fetchAttendance() {
+const selectedDate = document.getElementById("dateInput").value;
+const selectedCourse = document.getElementById("courseSelectViewAttendance").value;
+
+if (!selectedCourse || !selectedDate) {
+  alert("Please select both a course and a date.");
+  return;
+}
+
+fetch(`../../api/lecturer/get_attendance.php?course_code=${selectedCourse}&date=${selectedDate}`)
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById("attendanceTableContainer");
+      if (data.records && data.records.length > 0) {
+        let html = `<table border="1" cellpadding="10">
+                      <tr>
+                         <th>#</th>
+                        <th>Fingeprint ID</th>
+                        <th>Name</th>
+                        <th>Matric Number</th>
+                        <th>Department</th>
+                        <th>Level</th>
+                        <th>Timestamp</th>
+                      </tr>`;
+        data.records.forEach((rec,index) => {
+          html += `<tr>
+                    <td>${index + 1}</td>  <!-- Serial number -->
+                    <td>${rec.student_id}</td>
+                    <td>${rec.full_name}</td>
+                    <td>${rec.matric_no}</td>
+                    <td>${rec.department}</td>
+                    <td>${rec.level}</td>
+                    <td>${rec.timestamp}</td>
+                   </tr>`;
+        });
+        html += `</table>`;
+        container.innerHTML = html;
+      } else {
+        container.innerHTML = "<p>No attendance records found for the selected date and course.</p>";
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById("attendanceTableContainer").innerHTML = "<p>Error loading attendance data.</p>";
+    });
+}
+
+    </script>
+    
 </body>
 </html>

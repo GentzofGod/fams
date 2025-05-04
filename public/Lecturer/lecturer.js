@@ -55,36 +55,37 @@ function fetchCourses() {
         courseSelectSummary.innerHTML='';
 
         data.courses.forEach(course => {
-          console.log(course);  // Log each course to see if the ID is correct
-
+          const displayText = `${course.course_code} - ${course.course_title}`;
+          
           const option1 = document.createElement('option');
-          const courseId = course._id?.$oid || course._id;
-          console.log('Course ID:', courseId); // Debugging the course ID
-
-          option1.value = courseId;  // Ensure the value is set correctly
-          option1.textContent = `${course.course_code} - ${course.course_title}`;
+          option1.value = course._id?.$oid || course._id; // use course_code here
+          option1.textContent = displayText;
           courseSelectAdd.appendChild(option1);
 
+          // option.value = course._id?.$oid || course._id;
+          // option.textContent = `${course.course_code} - ${course.course_title}`;
+          // courseSelectManage.appendChild(option);
+        
           const option2 = document.createElement('option');
-          option2.value = courseId;  // Ensure the value is set correctly
-          option2.textContent = `${course.course_code} - ${course.course_title}`;
+          option2.value = course._id?.$oid || course._id;
+          option2.textContent = displayText;
           courseSelectBulk.appendChild(option2);
-
+        
           const option3 = document.createElement('option');
-          option3.value = courseId;  // Ensure the value is set correctly
-          option3.textContent = `${course.course_code} - ${course.course_title}`;
+          option3.value = course.course_code;
+          option3.textContent = displayText;
           courseSelectAttendance.appendChild(option3);
-
+        
           const option4 = document.createElement('option');
-          option4.value = courseId;  // Ensure the value is set correctly
-          option4.textContent = `${course.course_code} - ${course.course_title}`;
+          option4.value = course.course_code;
+          option4.textContent = displayText;
           courseSelectViewAttendance.appendChild(option4);
-
+        
           const option5 = document.createElement('option');
-          option5.value = courseId;  // Ensure the value is set correctly
-          option5.textContent = `${course.course_code} - ${course.course_title}`;
+          option5.value = course.course_code;
+          option5.textContent = displayText;
           courseSelectSummary.appendChild(option5);
-          
+        
 
         });
 
@@ -336,6 +337,7 @@ function removeStudent(matricNo) {
       .catch(err => console.error('Error:', err));
   }
 }
+
 
 
   });

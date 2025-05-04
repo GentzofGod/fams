@@ -2,28 +2,31 @@
 require 'api/config.php'; // MongoDB connection
 header('Content-Type: application/json');
 
-// Decode JSON data from ESP32
+// Decode incoming JSON from ESP32
 $data = json_decode(file_get_contents("php://input"), true);
 
-if (!isset($data['fingerprint_id']) || !isset($data['sensor_id'])) {
-    echo json_encode(['error' => 'fingerprint_id and sensor_id are required']);
+// Validate required fields
+if (!isset($data['course_code']) || !isset($data['student_id'])) {
+    echo json_encode(['error' => 'course_code and student_id are required']);
     exit;
 }
 
-$fingerprint_id = $data['fingerprint_id'];
-$sensor_id = $data['sensor_id'];
+$courseCode = $data['course_code'];
+$studentId = $data['student_id'];
 $timestamp = date('Y-m-d H:i:s');
 
+// Select the collection
 $collection = $client->selectCollection('fams', 'fingerprint_logs');
 
-// Save to database
+// Insert attendance log
 $insertResult = $collection->insertOne([
-    'sensor_id' => $sensor_id,
-    'fingerprint_id' => $fingerprint_id,
+    'course_code' => $courseCode,
+    'student_id' => $studentId,
     'timestamp' => $timestamp
 ]);
 
+// Respond with success
 echo json_encode([
-    'message' => 'Fingerprint recorded successfully',
+    'message' => 'Attendance log recorded successfully',
     'inserted_id' => (string) $insertResult->getInsertedId()
 ]);
